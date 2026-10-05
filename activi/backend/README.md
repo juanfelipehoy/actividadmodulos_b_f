@@ -1,73 +1,168 @@
-# AgroSoft Cultivos - Backend
+# AGROSOFT - Backend API
 
-## 🏗️ Arquitectura Hexagonal
+API RESTful para el módulo de actividades de AGROSOFT, implementada con NestJS y arquitectura hexagonal.
 
-Este proyecto sigue una arquitectura hexagonal (Clean Architecture) con separación clara entre dominio, aplicación e infraestructura.
+## 🛠️ Tecnologías
 
-### Estructura de cada módulo:
+- **NestJS** v11.0.1
+- **TypeScript** v5.7.3
+- **TypeORM** v0.3.20
+- **PostgreSQL**
+- **class-validator** v0.15.1
+- **class-transformer** v0.5.1
+
+## 📁 Estructura
+
 ```
-módulo/
-├── domain/
-│   ├── entities/           # Entidades del dominio (lógica de negocio pura)
-│   └── ports/              # Puertos/interfaces (contratos)
-├── application/
-│   └── use-cases/          # Casos de uso del dominio
-└── infrastructure/
-    ├── http/
-    │   ├── controllers/    # Adaptadores HTTP
-    │   └── dto/            # DTOs para transferencia de datos
-    └── persistence/        # Adaptadores de persistencia (TypeORM)
+src/
+├── actividades/                  # Módulo de actividades
+│   ├── application/
+│   │   └── use-cases/           # Casos de uso
+│   ├── domain/
+│   │   ├── entities/            # Entidades del dominio
+│   │   └── ports/               # Interfaces de repositorios
+│   └── infrastructure/
+│       ├── http/
+│       │   ├── controllers/     # Controladores REST
+│       │   └── dto/             # Data Transfer Objects
+│       └── persistence/         # Implementación TypeORM
+├── actividad-historial/          # Módulo de historial
+├── actividades-evidencias/       # Módulo de evidencias
+├── actividades-herramientas/     # Módulo de herramientas
+├── actividades-responsables/     # Módulo de responsables
+├── actividades-servicios/        # Módulo de servicios
+├── app.module.ts                 # Módulo raíz
+└── main.ts                       # Punto de entrada
 ```
 
-## 🚀 Configuración y Ejecución
+## 🚀 Instalación
 
-### Requisitos
-- Docker y Docker Compose
-- Node.js
-
-### Paso 1: Iniciar PostgreSQL con Docker
-```bash
-docker-compose up -d
-```
-
-### Paso 2: Instalar dependencias
 ```bash
 npm install
 ```
 
-### Paso 3: Ejecutar en desarrollo
+## ⚙️ Configuración
+
+Copiar el archivo de ejemplo de variables de entorno:
+
+```bash
+cp .env.example .env
+```
+
+Configurar las variables en `.env`:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
+DB_DATABASE=agrosoft
+PORT=3000
+NODE_ENV=development
+FRONTEND_URL=http://localhost:5173
+DB_SYNCHRONIZE=false
+DB_LOGGING=true
+```
+
+## 🏃 Ejecución
+
+### Desarrollo
+
 ```bash
 npm run start:dev
 ```
 
-### Paso 4: Para producción
+### Producción
+
 ```bash
 npm run build
 npm run start:prod
 ```
 
-## 📝 Variables de Entorno
+### Tests
 
-Las variables de configuración están en `.env`:
-- `DB_TYPE`: Tipo de base de datos (postgres)
-- `DB_HOST`: Host de la base de datos
-- `DB_PORT`: Puerto de la base de datos
-- `DB_USERNAME`: Usuario de la base de datos
-- `DB_PASSWORD`: Contraseña de la base de datos
-- `DB_DATABASE`: Nombre de la base de datos
+```bash
+# Unit tests
+npm run test
 
-## ⚠️ Notas Importantes
+# E2E tests
+npm run test:e2e
 
-1. **synchronize: true**: Crea automáticamente las tablas. Úsalo solo en desarrollo.
-2. **En producción**: Usa migraciones de TypeORM en lugar de synchronize.
-3. **Arquitectura hexagonal**: Los módulos exportan solo puertos, no casos de uso.
-4. **Infraestructura separada**: TypeORM, ConfigModule y Docker son adaptadores de infraestructura.
+# Coverage
+npm run test:cov
+```
 
-## 🎯 Módulos Implementados
+### Linting
 
-- **actividades**: Gestión de actividades agrícolas
-- **actividad-historial**: Historial de cambios de actividades
-- **actividades-evidencias**: Evidencias de actividades
-- **actividades-herramientas**: Herramientas de actividades
-- **actividades-responsables**: Responsables de actividades
-- **actividades-servicios**: Servicios de actividades
+```bash
+npm run lint
+```
+
+### Formateo
+
+```bash
+npm run format
+```
+
+## 📡 API Endpoints
+
+### Actividades
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/actividades` | Listar todas las actividades |
+| GET | `/actividades/:id` | Obtener una actividad por ID |
+| POST | `/actividades` | Crear una nueva actividad |
+| PUT | `/actividades/:id` | Actualizar una actividad |
+| DELETE | `/actividades/:id` | Eliminar una actividad |
+
+### Otros módulos
+
+Similar estructura para:
+- `/actividad-historial`
+- `/actividades-evidencias`
+- `/actividades-herramientas`
+- `/actividades-responsables`
+- `/actividades-servicios`
+
+## 🏗️ Arquitectura Hexagonal
+
+El proyecto sigue la arquitectura hexagonal (Ports and Adapters):
+
+### Domain Layer
+- Contiene la lógica de negocio pura
+- No depende de frameworks externos
+- Define entidades y puertos (interfaces)
+
+### Application Layer
+- Contiene los casos de uso
+- Orquesta las operaciones del dominio
+- Usa DTOs para transferencia de datos
+
+### Infrastructure Layer
+- Implementa los puertos del dominio
+- Controladores HTTP
+- Repositorios TypeORM
+- Configuración externa
+
+## 🔒 Seguridad
+
+- Validación de DTOs con class-validator
+- Configuración de CORS
+- Variables de entorno para datos sensibles
+- Transformación automática de tipos
+
+## 📝 Scripts Disponibles
+
+| Script | Descripción |
+|--------|-------------|
+| `npm run build` | Compila el proyecto |
+| `npm run format` | Formatea el código con Prettier |
+| `npm run start` | Inicia la aplicación en modo prod |
+| `npm run start:dev` | Inicia en modo desarrollo con watch |
+| `npm run start:debug` | Inicia en modo debug |
+| `npm run start:prod` | Inicia en modo producción |
+| `npm run lint` | Ejecuta ESLint |
+| `npm run test` | Ejecuta tests unitarios |
+| `npm run test:cov` | Ejecuta tests con coverage |
+| `npm run test:e2e` | Ejecuta tests E2E |

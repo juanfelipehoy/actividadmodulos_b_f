@@ -17,14 +17,14 @@ import { ActividadesServiciosModule } from './actividades-servicios/actividades-
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
-        host: process.env.DB_HOST,
-        port: Number(process.env.DB_PORT),
-        username: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE,
+        host: process.env.DB_HOST || 'localhost',
+        port: Number(process.env.DB_PORT) || 5432,
+        username: process.env.DB_USERNAME || 'postgres',
+        password: process.env.DB_PASSWORD || 'postgres',
+        database: process.env.DB_DATABASE || 'agrosoft',
         entities: [__dirname + '/**/*.orm-entity{.ts,.js}'],
-        synchronize: true, // CUIDADO: true solo en desarrollo
-        logging: true,
+        synchronize: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV === 'development',
+        logging: process.env.DB_LOGGING === 'true',
       }),
     }),
     ActividadesModule,

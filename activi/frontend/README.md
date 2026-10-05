@@ -1,72 +1,150 @@
-# AgroSoft Cultivos - Frontend
+# AGROSOFT - Frontend
 
-## 🎨 Stack Tecnológico
+Aplicación frontend para el módulo de actividades de AGROSOFT, implementada con React y Vite.
 
-- **React 19.2.8** - Framework UI
-- **Vite 8.3.0** - Build tool
-- **Tailwind CSS** - Framework CSS
-- **Axios** - Cliente HTTP
-- **React Router DOM** - Enrutamiento
+## 🛠️ Tecnologías
 
-## 🚀 Configuración y Ejecución
+- **React** v19.2.8
+- **Vite** v8.3.0
+- **Tailwind CSS** v3.4.19
+- **React Router** v7.18.4
+- **Axios** v1.20.0
+- **TypeScript** (opcional)
 
-### Requisitos Previos
-- Backend corriendo en `http://localhost:3000`
-- Docker con PostgreSQL corriendo
+## 📁 Estructura
 
-### Instalación
+```
+src/
+├── components/           # Componentes reutilizables
+│   ├── ActividadCard.jsx
+│   └── ActividadForm.jsx
+├── pages/                # Páginas de la aplicación
+│   ├── ActividadesPage.jsx
+│   ├── EvidenciasPage.jsx
+│   └── HistorialPage.jsx
+├── layouts/              # Layouts de la aplicación
+│   └── MainLayout.jsx
+├── services/             # Servicios API
+│   └── api.js
+├── assets/               # Imágenes y recursos estáticos
+├── App.jsx               # Componente principal
+└── main.jsx              # Punto de entrada
+```
+
+## 🚀 Instalación
+
 ```bash
 npm install
 ```
 
-### Ejecutar en Desarrollo
+## ⚙️ Configuración
+
+Configurar la URL de la API en `src/services/api.js`:
+
+```javascript
+const API_URL = 'http://localhost:3000';
+```
+
+## 🏃 Ejecución
+
+### Desarrollo
+
 ```bash
 npm run dev
 ```
 
-### Build para Producción
+La aplicación estará disponible en `http://localhost:5173`
+
+### Producción
+
 ```bash
 npm run build
 npm run preview
 ```
 
-## 🎨 Diseño
+### Linting
 
-- **Colores**: Paleta de verdes AgroSoft (agro-50 a agro-900)
-- **Estilo**: Minimalista y limpio
-- **Responsive**: Adaptado a dispositivos móviles
-- **Accesible**: Buen contraste y navegación clara
-
-## 📱 Funcionalidades
-
-- ✅ Gestión de actividades agrícolas
-- ✅ Crear, editar, eliminar actividades
-- ✅ Visualización en tarjetas
-- ✅ Filtrado por estado y prioridad
-- ✅ Diseño responsivo
-
-## 🔗 Conexión con Backend
-
-El frontend se conecta al backend vía axios en `http://localhost:3000`
-
-**Configuración CORS en backend:**
-- Origin: `http://localhost:5173`
-- Métodos: GET, POST, PUT, PATCH, DELETE
-- Credentials: enabled
-
-## 📁 Estructura de Archivos
-
+```bash
+npm run lint
 ```
-src/
-├── components/           # Componentes React
-│   ├── ActividadCard.jsx
-│   └── ActividadForm.jsx
-├── layouts/             # Layouts
-│   └── MainLayout.jsx
-├── pages/               # Páginas
-│   └── ActividadesPage.jsx
-├── services/            # Servicios API
-│   └── api.js
-├── App.jsx              # App principal
-└── main.jsx             # Entry point
+
+## 📡 Páginas
+
+### Actividades
+- Lista de todas las actividades
+- Crear nueva actividad
+- Editar actividad existente
+- Eliminar actividad
+
+### Evidencias
+- Gestión de evidencias de actividades
+- Subir archivos de evidencia
+- Ver evidencias asociadas
+
+### Historial
+- Historial de cambios de actividades
+- Timeline de modificaciones
+- Auditoría de cambios
+
+## 🎨 Estilos
+
+El proyecto usa **Tailwind CSS** para el estilizado. Los estilos se configuran en:
+
+- `tailwind.config.js` - Configuración de Tailwind
+- `src/index.css` - Estilos globales
+- Componentes con clases de Tailwind
+
+## 🔗 Integración con Backend
+
+La aplicación se conecta con la API backend usando Axios. Los endpoints están configurados en `src/services/api.js`.
+
+### Ejemplo de uso:
+
+```javascript
+import { createActividad } from '../services/api';
+
+const handleSubmit = async (data) => {
+  try {
+    const response = await createActividad(data);
+    console.log('Actividad creada:', response);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
 ```
+
+## 📝 Scripts Disponibles
+
+| Script | Descripción |
+|--------|-------------|
+| `npm run dev` | Inicia el servidor de desarrollo |
+| `npm run build` | Compila para producción |
+| `npm run preview` | Previsualiza la build de producción |
+| `npm run lint` | Ejecuta ESLint |
+
+## 🧩 Componentes
+
+### ActividadCard
+Componente para mostrar una actividad individual con su información.
+
+### ActividadForm
+Formulario para crear y editar actividades con validación.
+
+### MainLayout
+Layout principal con navegación y estructura común.
+
+## 🔄 Enrutamiento
+
+El enrutamiento se maneja con React Router v7. Las rutas están configuradas en `App.jsx`:
+
+- `/` - Página de actividades
+- `/evidencias` - Página de evidencias
+- `/historial` - Página de historial
+
+## 🎯 Características
+
+- **SPA**: Single Page Application con navegación fluida
+- **Responsive**: Diseño adaptable a diferentes dispositivos
+- **API Integration**: Conexión con backend REST API
+- **Form Validation**: Validación de formularios
+- **State Management**: Gestión de estado con React hooks
