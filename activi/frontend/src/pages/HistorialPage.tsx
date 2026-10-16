@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { historialApi } from '../services/api';
+import { historialApi, ActividadHistorial } from '../services/api';
 
 const HistorialPage = () => {
-  const [historial, setHistorial] = useState([]);
+  const [historial, setHistorial] = useState<ActividadHistorial[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadHistorial();
@@ -24,7 +24,7 @@ const HistorialPage = () => {
     }
   };
 
-  const getAccionColor = (accion) => {
+  const getAccionColor = (accion: string) => {
     const colors = {
       creacion: 'bg-emerald-50 text-emerald-700 border-emerald-200',
       edicion: 'bg-blue-50 text-blue-700 border-blue-200',

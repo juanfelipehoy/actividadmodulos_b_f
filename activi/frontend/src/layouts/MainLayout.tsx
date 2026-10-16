@@ -1,6 +1,12 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, Link } from 'react-router-dom';
 
-const navItems = [
+interface NavItem {
+  path: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+const navItems: NavItem[] = [
   {
     path: '/actividades',
     label: 'Actividades',
@@ -59,14 +65,14 @@ const MainLayout = () => {
             const isActive = location.pathname === item.path || 
               (item.path === '/actividades' && location.pathname === '/');
             return (
-              <a
+              <Link
                 key={item.path}
-                href={item.path}
+                to={item.path}
                 className={`sidebar-link ${isActive ? 'sidebar-link-active' : 'sidebar-link-inactive'}`}
               >
                 {item.icon}
                 {item.label}
-              </a>
+              </Link>
             );
           })}
         </nav>

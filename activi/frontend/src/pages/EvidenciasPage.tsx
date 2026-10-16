@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { evidenciasApi } from '../services/api';
+import { evidenciasApi, ActividadEvidencia } from '../services/api';
 
 const EvidenciasPage = () => {
-  const [evidencias, setEvidencias] = useState([]);
+  const [evidencias, setEvidencias] = useState<ActividadEvidencia[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadEvidencias();

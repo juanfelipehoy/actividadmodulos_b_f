@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { actividadesApi } from '../services/api';
+import { actividadesApi, Actividad } from '../services/api';
 import ActividadCard from '../components/ActividadCard';
 import ActividadForm from '../components/ActividadForm';
 
 const ActividadesPage = () => {
-  const [actividades, setActividades] = useState([]);
+  const [actividades, setActividades] = useState<Actividad[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editingActividad, setEditingActividad] = useState(null);
-  const [error, setError] = useState(null);
+  const [editingActividad, setEditingActividad] = useState<Actividad | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [filtroEstado, setFiltroEstado] = useState('todos');
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const ActividadesPage = () => {
     }
   };
 
-  const handleCreate = async (formData) => {
+  const handleCreate = async (formData: Partial<Actividad>) => {
     try {
       await actividadesApi.create(formData);
       setShowForm(false);
@@ -40,9 +40,9 @@ const ActividadesPage = () => {
     }
   };
 
-  const handleUpdate = async (formData) => {
+  const handleUpdate = async (formData: Partial<Actividad>) => {
     try {
-      await actividadesApi.update(editingActividad.id_actividad, formData);
+      await actividadesApi.update(editingActividad!.id_actividad!, formData);
       setShowForm(false);
       setEditingActividad(null);
       loadActividades();
@@ -52,7 +52,7 @@ const ActividadesPage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     if (window.confirm('¿Estas seguro de eliminar esta actividad?')) {
       try {
         await actividadesApi.delete(id);
@@ -64,7 +64,7 @@ const ActividadesPage = () => {
     }
   };
 
-  const handleEdit = (actividad) => {
+  const handleEdit = (actividad: Actividad) => {
     setEditingActividad(actividad);
     setShowForm(true);
   };

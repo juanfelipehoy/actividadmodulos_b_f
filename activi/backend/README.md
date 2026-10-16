@@ -53,16 +53,24 @@ Configurar las variables en `.env`:
 
 ```env
 DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=your_password
-DB_DATABASE=agrosoft
+DB_PORT=5433
+DB_USERNAME=backend_user
+DB_PASSWORD=backend123
+DB_DATABASE=db_agrosoft
 PORT=3000
 NODE_ENV=development
 FRONTEND_URL=http://localhost:5173
-DB_SYNCHRONIZE=false
+DB_SYNCHRONIZE=true
 DB_LOGGING=true
 ```
+
+**Iniciar base de datos con Docker:**
+
+```bash
+docker-compose up -d
+```
+
+El docker-compose leerá las variables de entorno desde tu archivo `.env`.
 
 ## 🏃 Ejecución
 
@@ -144,6 +152,27 @@ El proyecto sigue la arquitectura hexagonal (Ports and Adapters):
 - Controladores HTTP
 - Repositorios TypeORM
 - Configuración externa
+
+## 🗄️ Migraciones de Base de Datos
+
+El proyecto usa migraciones de TypeORM en lugar de `synchronize`.
+
+### Ejecutar migraciones
+
+```bash
+# Ejecutar todas las migraciones pendientes
+npm run migration:run
+
+# Revertir la última migración
+npm run migration:revert
+
+# Generar una nueva migración (después de cambios en entidades)
+npm run migration:generate -- -n NombreDeLaMigracion
+```
+
+### Configuración
+
+Las migraciones se ejecutan automáticamente en desarrollo si `DB_SYNCHRONIZE=true` en `.env`. En producción, debes ejecutarlas manualmente con `npm run migration:run`.
 
 ## 🔒 Seguridad
 

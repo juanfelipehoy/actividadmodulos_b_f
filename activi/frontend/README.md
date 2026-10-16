@@ -5,30 +5,30 @@ Aplicación frontend para el módulo de actividades de AGROSOFT, implementada co
 ## 🛠️ Tecnologías
 
 - **React** v19.2.8
+- **TypeScript** v7.0.2
 - **Vite** v8.3.0
 - **Tailwind CSS** v3.4.19
 - **React Router** v7.18.4
 - **Axios** v1.20.0
-- **TypeScript** (opcional)
 
 ## 📁 Estructura
 
 ```
 src/
 ├── components/           # Componentes reutilizables
-│   ├── ActividadCard.jsx
-│   └── ActividadForm.jsx
+│   ├── ActividadCard.tsx
+│   └── ActividadForm.tsx
 ├── pages/                # Páginas de la aplicación
-│   ├── ActividadesPage.jsx
-│   ├── EvidenciasPage.jsx
-│   └── HistorialPage.jsx
+│   ├── ActividadesPage.tsx
+│   ├── EvidenciasPage.tsx
+│   └── HistorialPage.tsx
 ├── layouts/              # Layouts de la aplicación
-│   └── MainLayout.jsx
-├── services/             # Servicios API
-│   └── api.js
+│   └── MainLayout.tsx
+├── services/             # Servicios API con tipos TypeScript
+│   └── api.ts
 ├── assets/               # Imágenes y recursos estáticos
-├── App.jsx               # Componente principal
-└── main.jsx              # Punto de entrada
+├── App.tsx               # Componente principal
+└── main.tsx              # Punto de entrada
 ```
 
 ## 🚀 Instalación
@@ -39,10 +39,16 @@ npm install
 
 ## ⚙️ Configuración
 
-Configurar la URL de la API en `src/services/api.js`:
+Copiar el archivo de ejemplo de variables de entorno:
 
-```javascript
-const API_URL = 'http://localhost:3000';
+```bash
+cp .env.example .env
+```
+
+Configurar la URL de la API en `.env`:
+
+```env
+VITE_API_URL=http://localhost:3000
 ```
 
 ## 🏃 Ejecución
@@ -96,17 +102,17 @@ El proyecto usa **Tailwind CSS** para el estilizado. Los estilos se configuran e
 
 ## 🔗 Integración con Backend
 
-La aplicación se conecta con la API backend usando Axios. Los endpoints están configurados en `src/services/api.js`.
+La aplicación se conecta con la API backend usando Axios. Los endpoints están configurados en `src/services/api.ts` con tipos TypeScript.
 
 ### Ejemplo de uso:
 
-```javascript
-import { createActividad } from '../services/api';
+```typescript
+import { actividadesApi, Actividad } from '../services/api';
 
-const handleSubmit = async (data) => {
+const handleSubmit = async (data: Partial<Actividad>) => {
   try {
-    const response = await createActividad(data);
-    console.log('Actividad creada:', response);
+    const response = await actividadesApi.create(data);
+    console.log('Actividad creada:', response.data);
   } catch (error) {
     console.error('Error:', error);
   }

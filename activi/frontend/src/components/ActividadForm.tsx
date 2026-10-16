@@ -1,6 +1,13 @@
 import { useState } from 'react';
+import { Actividad } from '../services/api';
 
-const ActividadForm = ({ onSubmit, onCancel, initialData = {} }) => {
+interface ActividadFormProps {
+  onSubmit: (data: Partial<Actividad>) => void;
+  onCancel: () => void;
+  initialData?: Partial<Actividad>;
+}
+
+const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormProps) => {
   const [formData, setFormData] = useState({
     titulo: initialData.titulo || '',
     descripcion: initialData.descripcion || '',
@@ -11,12 +18,12 @@ const ActividadForm = ({ onSubmit, onCancel, initialData = {} }) => {
     id_cultivo_real: initialData.id_cultivo_real || 1,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };

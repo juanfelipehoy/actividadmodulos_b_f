@@ -1,5 +1,13 @@
-const ActividadCard = ({ actividad, onEdit, onDelete }) => {
-  const getEstadoConfig = (estado) => {
+import { Actividad } from '../services/api';
+
+interface ActividadCardProps {
+  actividad: Actividad;
+  onEdit: (actividad: Actividad) => void;
+  onDelete: (id: number) => void;
+}
+
+const ActividadCard = ({ actividad, onEdit, onDelete }: ActividadCardProps) => {
+  const getEstadoConfig = (estado: string) => {
     const configs = {
       pendiente: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', dot: 'bg-amber-400' },
       en_proceso: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', dot: 'bg-blue-400' },
@@ -9,7 +17,7 @@ const ActividadCard = ({ actividad, onEdit, onDelete }) => {
     return configs[estado] || configs.pendiente;
   };
 
-  const getPrioridadConfig = (prioridad) => {
+  const getPrioridadConfig = (prioridad: string) => {
     const configs = {
       alta: { bg: 'bg-red-50', text: 'text-red-600', label: 'Alta' },
       media: { bg: 'bg-amber-50', text: 'text-amber-600', label: 'Media' },
