@@ -8,6 +8,8 @@ interface ActividadFormProps {
 }
 
 const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormProps) => {
+  const isEditing = Boolean(initialData.id_actividad);
+  
   const [formData, setFormData] = useState({
     titulo: initialData.titulo || '',
     descripcion: initialData.descripcion || '',
@@ -29,15 +31,15 @@ const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormPr
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/50 p-4 backdrop-blur-sm sm:p-6" role="presentation" onClick={onCancel}>
+      <div className="mx-auto w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="actividad-form-title" onClick={(event) => event.stopPropagation()}>
         {/* Header */}
         <div className="px-6 py-5 border-b border-emerald-50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  {initialData.id_actividad ? (
+                  {isEditing ? (
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   ) : (
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -45,11 +47,11 @@ const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormPr
                 </svg>
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-800">
-                  {initialData.id_actividad ? 'Editar Actividad' : 'Nueva Actividad'}
+                <h2 id="actividad-form-title" className="text-lg font-semibold text-gray-800">
+                  {isEditing ? 'Editar Actividad' : 'Nueva Actividad'}
                 </h2>
                 <p className="text-xs text-gray-400">
-                  {initialData.id_actividad ? 'Modifica los datos de la actividad' : 'Registra una nueva actividad agricola'}
+                  {isEditing ? 'Modifica los datos de la actividad' : 'Registra una nueva actividad agricola'}
                 </p>
               </div>
             </div>
@@ -62,7 +64,7 @@ const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormPr
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-5">
           {/* Titulo */}
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1.5">Titulo</label>
@@ -91,7 +93,7 @@ const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormPr
           </div>
 
           {/* Grid: Tipo + Estado */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1.5">Tipo</label>
               <div className="relative">
@@ -136,7 +138,7 @@ const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormPr
           </div>
 
           {/* Grid: Prioridad + Fecha */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1.5">Prioridad</label>
               <div className="relative">
@@ -175,7 +177,7 @@ const ActividadForm = ({ onSubmit, onCancel, initialData = {} }: ActividadFormPr
               Cancelar
             </button>
             <button type="submit" className="btn-primary flex-1">
-              {initialData.id_actividad ? 'Actualizar' : 'Crear Actividad'}
+              {isEditing ? 'Actualizar' : 'Crear Actividad'}
             </button>
           </div>
         </form>

@@ -16,7 +16,9 @@ export class ActividadResponsableDomain {
     });
   }
 
-  static fromPersistence(props: ActividadResponsableProps): ActividadResponsableDomain {
+  static fromPersistence(
+    props: ActividadResponsableProps,
+  ): ActividadResponsableDomain {
     return new ActividadResponsableDomain(props);
   }
 

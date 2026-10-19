@@ -1,5 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ActividadServicioDomain, ActividadServicioProps } from '../../domain/entities/actividad-servicio.entity';
+import {
+  ActividadServicioDomain,
+  ActividadServicioProps,
+} from '../../domain/entities/actividad-servicio.entity';
 import { ACTIVIDAD_SERVICIO_REPOSITORY } from '../../domain/ports/actividad-servicio.repository.port';
 import type { ActividadServicioRepositoryPort } from '../../domain/ports/actividad-servicio.repository.port';
 

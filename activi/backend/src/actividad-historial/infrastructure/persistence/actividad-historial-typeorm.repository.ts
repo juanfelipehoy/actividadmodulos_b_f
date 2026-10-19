@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ActividadHistorialDomain, ActividadHistorialProps } from '../../domain/entities/actividad-historial.entity';
+import {
+  ActividadHistorialDomain,
+  ActividadHistorialProps,
+} from '../../domain/entities/actividad-historial.entity';
 import type {
   ActividadHistorialRepositoryPort,
   ActividadHistorialUpdate,
@@ -15,14 +18,20 @@ export class TypeOrmActividadHistorialRepository implements ActividadHistorialRe
     private readonly repository: Repository<ActividadHistorialOrmEntity>,
   ) {}
 
-  async create(historial: ActividadHistorialDomain): Promise<ActividadHistorialDomain> {
-    const entity = this.repository.create(this.toPersistence(historial.toPrimitives()));
+  async create(
+    historial: ActividadHistorialDomain,
+  ): Promise<ActividadHistorialDomain> {
+    const entity = this.repository.create(
+      this.toPersistence(historial.toPrimitives()),
+    );
     const saved = await this.repository.save(entity);
     return this.toDomain(saved);
   }
 
   async findAll(): Promise<ActividadHistorialDomain[]> {
-    const entities = await this.repository.find({ relations: { actividad: true } });
+    const entities = await this.repository.find({
+      relations: { actividad: true },
+    });
     return entities.map((e) => this.toDomain(e));
   }
 
@@ -34,8 +43,13 @@ export class TypeOrmActividadHistorialRepository implements ActividadHistorialRe
     return entity ? this.toDomain(entity) : null;
   }
 
-  async update(id: number, data: ActividadHistorialUpdate): Promise<ActividadHistorialDomain | null> {
-    const existing = await this.repository.findOneBy({ id_actividad_historial: id });
+  async update(
+    id: number,
+    data: ActividadHistorialUpdate,
+  ): Promise<ActividadHistorialDomain | null> {
+    const existing = await this.repository.findOneBy({
+      id_actividad_historial: id,
+    });
     if (!existing) return null;
     await this.repository.update({ id_actividad_historial: id }, data);
     return this.findById(id);
@@ -46,7 +60,9 @@ export class TypeOrmActividadHistorialRepository implements ActividadHistorialRe
     return Boolean(result.affected);
   }
 
-  private toPersistence(props: ActividadHistorialProps): Partial<ActividadHistorialOrmEntity> {
+  private toPersistence(
+    props: ActividadHistorialProps,
+  ): Partial<ActividadHistorialOrmEntity> {
     return {
       id_actividad: props.id_actividad,
       accion: props.accion,
@@ -57,7 +73,9 @@ export class TypeOrmActividadHistorialRepository implements ActividadHistorialRe
     };
   }
 
-  private toDomain(entity: ActividadHistorialOrmEntity): ActividadHistorialDomain {
+  private toDomain(
+    entity: ActividadHistorialOrmEntity,
+  ): ActividadHistorialDomain {
     return ActividadHistorialDomain.fromPersistence({
       id_actividad_historial: entity.id_actividad_historial,
       id_actividad: entity.id_actividad,

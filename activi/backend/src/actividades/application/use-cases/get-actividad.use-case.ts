@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ActividadDomain } from '../../domain/entities/actividad.entity';
 import { ACTIVIDAD_REPOSITORY } from '../../domain/ports/actividad.repository.port';
 import type { ActividadRepositoryPort } from '../../domain/ports/actividad.repository.port';
@@ -10,13 +10,11 @@ export class GetActividadUseCase {
     private readonly actividadRepository: ActividadRepositoryPort,
   ) {}
 
-  async execute(id: number): Promise<ActividadDomain> {
-    const actividad = await this.actividadRepository.findById(id);
+  findAll(): Promise<ActividadDomain[]> {
+    return this.actividadRepository.findAll();
+  }
 
-    if (!actividad) {
-      throw new NotFoundException(`Actividad con id ${id} no encontrada`);
-    }
-
-    return actividad;
+  execute(id: number): Promise<ActividadDomain | null> {
+    return this.actividadRepository.findById(id);
   }
 }

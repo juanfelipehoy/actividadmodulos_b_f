@@ -17,7 +17,9 @@ export class ActividadServicioDomain {
     });
   }
 
-  static fromPersistence(props: ActividadServicioProps): ActividadServicioDomain {
+  static fromPersistence(
+    props: ActividadServicioProps,
+  ): ActividadServicioDomain {
     return new ActividadServicioDomain(props);
   }
 

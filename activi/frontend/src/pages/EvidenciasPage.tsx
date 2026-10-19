@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import EntityModal from '../components/EntityModal';
 import { evidenciasApi, ActividadEvidencia } from '../services/api';
 
 const EvidenciasPage = () => {
   const [evidencias, setEvidencias] = useState<ActividadEvidencia[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     loadEvidencias();
@@ -24,6 +27,27 @@ const EvidenciasPage = () => {
     }
   };
 
+  const handleCreate = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const values = new FormData(event.currentTarget);
+    try {
+      setSubmitting(true);
+      await evidenciasApi.create({
+        id_actividad: Number(values.get('id_actividad')),
+        tipo_evidencia: String(values.get('tipo_evidencia')),
+        archivo_url: String(values.get('archivo_url')),
+        descripcion: String(values.get('descripcion') || '') || undefined,
+        observaciones: String(values.get('observaciones') || '') || undefined,
+      });
+      setShowForm(false);
+      await loadEvidencias();
+    } catch (requestError) {
+      setError('No se pudo crear la evidencia.');
+      console.error(requestError);
+    } finally {
+      setSubmitting(false);
+    }
+  };
   if (loading) {
     return (
       <div className="flex items-center justify-center h-80">
@@ -43,7 +67,7 @@ const EvidenciasPage = () => {
           <h1 className="text-2xl font-bold text-gray-800">Evidencias</h1>
           <p className="text-sm text-gray-400 mt-0.5">Fotos y documentos de las actividades</p>
         </div>
-        <button className="btn-primary flex items-center gap-2">
+        <button onClick={() => setShowForm(true)} className="btn-primary flex items-center gap-2">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
           </svg>

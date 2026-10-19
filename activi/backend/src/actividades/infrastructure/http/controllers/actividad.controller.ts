@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, NotFoundException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateActividadUseCase } from '../../../application/use-cases/create-actividad.use-case';
 import { GetActividadUseCase } from '../../../application/use-cases/get-actividad.use-case';
 import { SaveActividadUseCase } from '../../../application/use-cases/save-actividad.use-case';
@@ -17,8 +27,15 @@ export class ActividadController {
 
   @Post()
   async create(@Body() createActividadDto: CreateActividadDto) {
-    const actividad = await this.createActividadUseCase.execute(createActividadDto);
+    const actividad =
+      await this.createActividadUseCase.execute(createActividadDto);
     return actividad.toPrimitives();
+  }
+
+  @Get()
+  async findAll() {
+    const actividades = await this.getActividadUseCase.findAll();
+    return actividades.map((actividad) => actividad.toPrimitives());
   }
 
   @Get(':id')
@@ -31,8 +48,14 @@ export class ActividadController {
   }
 
   @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() saveActividadDto: SaveActividadDto) {
-    const actividad = await this.saveActividadUseCase.execute(id, saveActividadDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() saveActividadDto: SaveActividadDto,
+  ) {
+    const actividad = await this.saveActividadUseCase.execute(
+      id,
+      saveActividadDto,
+    );
     if (!actividad) {
       throw new NotFoundException(`Actividad con id ${id} no encontrada`);
     }

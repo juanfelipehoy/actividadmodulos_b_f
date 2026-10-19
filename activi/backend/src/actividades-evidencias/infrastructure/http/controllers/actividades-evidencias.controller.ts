@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, NotFoundException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateActividadEvidenciaUseCase } from '../../../application/use-cases/create-actividad-evidencia.use-case';
 import { GetActividadEvidenciaUseCase } from '../../../application/use-cases/get-actividad-evidencia.use-case';
 import { SaveActividadEvidenciaUseCase } from '../../../application/use-cases/save-actividad-evidencia.use-case';
@@ -31,16 +41,23 @@ export class ActividadesEvidenciasController {
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const result = await this.getUseCase.findById(id);
     if (!result) {
-      throw new NotFoundException(`Evidencia de actividad con id ${id} no encontrada`);
+      throw new NotFoundException(
+        `Evidencia de actividad con id ${id} no encontrada`,
+      );
     }
     return result.toPrimitives();
   }
 
   @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: SaveActividadEvidenciaDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: SaveActividadEvidenciaDto,
+  ) {
     const result = await this.saveUseCase.execute(id, dto);
     if (!result) {
-      throw new NotFoundException(`Evidencia de actividad con id ${id} no encontrada`);
+      throw new NotFoundException(
+        `Evidencia de actividad con id ${id} no encontrada`,
+      );
     }
     return result.toPrimitives();
   }
@@ -49,7 +66,9 @@ export class ActividadesEvidenciasController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     const deleted = await this.deleteUseCase.execute(id);
     if (!deleted) {
-      throw new NotFoundException(`Evidencia de actividad con id ${id} no encontrada`);
+      throw new NotFoundException(
+        `Evidencia de actividad con id ${id} no encontrada`,
+      );
     }
     return { deleted };
   }

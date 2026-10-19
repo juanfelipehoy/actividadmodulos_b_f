@@ -21,6 +21,9 @@ export interface ActividadRepositoryPort {
   create(actividad: ActividadDomain): Promise<ActividadDomain>;
   findAll(): Promise<ActividadDomain[]>;
   findById(id: number): Promise<ActividadDomain | null>;
-  update(id: number, actividad: ActividadUpdate): Promise<ActividadDomain | null>;
+  update(
+    id: number,
+    actividad: ActividadUpdate,
+  ): Promise<ActividadDomain | null>;
   delete(id: number): Promise<boolean>;
 }

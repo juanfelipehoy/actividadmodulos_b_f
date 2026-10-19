@@ -15,7 +15,9 @@ export class ActividadEvidenciaDomain {
     return new ActividadEvidenciaDomain(props);
   }
 
-  static fromPersistence(props: ActividadEvidenciaProps): ActividadEvidenciaDomain {
+  static fromPersistence(
+    props: ActividadEvidenciaProps,
+  ): ActividadEvidenciaDomain {
     return new ActividadEvidenciaDomain(props);
   }
 

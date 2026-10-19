@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, NotFoundException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateActividadHistorialUseCase } from '../../../application/use-cases/create-actividad-historial.use-case';
 import { GetActividadHistorialUseCase } from '../../../application/use-cases/get-actividad-historial.use-case';
 import { SaveActividadHistorialUseCase } from '../../../application/use-cases/save-actividad-historial.use-case';
@@ -31,16 +41,23 @@ export class ActividadHistorialController {
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const result = await this.getUseCase.findById(id);
     if (!result) {
-      throw new NotFoundException(`Historial de actividad con id ${id} no encontrado`);
+      throw new NotFoundException(
+        `Historial de actividad con id ${id} no encontrado`,
+      );
     }
     return result.toPrimitives();
   }
 
   @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: SaveActividadHistorialDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: SaveActividadHistorialDto,
+  ) {
     const result = await this.saveUseCase.execute(id, dto);
     if (!result) {
-      throw new NotFoundException(`Historial de actividad con id ${id} no encontrado`);
+      throw new NotFoundException(
+        `Historial de actividad con id ${id} no encontrado`,
+      );
     }
     return result.toPrimitives();
   }
@@ -49,7 +66,9 @@ export class ActividadHistorialController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     const deleted = await this.deleteUseCase.execute(id);
     if (!deleted) {
-      throw new NotFoundException(`Historial de actividad con id ${id} no encontrado`);
+      throw new NotFoundException(
+        `Historial de actividad con id ${id} no encontrado`,
+      );
     }
     return { deleted };
   }

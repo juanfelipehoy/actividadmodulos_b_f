@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, NotFoundException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateActividadHerramientaUseCase } from '../../../application/use-cases/create-actividad-herramienta.use-case';
 import { GetActividadHerramientaUseCase } from '../../../application/use-cases/get-actividad-herramienta.use-case';
 import { SaveActividadHerramientaUseCase } from '../../../application/use-cases/save-actividad-herramienta.use-case';
@@ -31,16 +41,23 @@ export class ActividadesHerramientasController {
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const result = await this.getUseCase.findById(id);
     if (!result) {
-      throw new NotFoundException(`Herramienta de actividad con id ${id} no encontrada`);
+      throw new NotFoundException(
+        `Herramienta de actividad con id ${id} no encontrada`,
+      );
     }
     return result.toPrimitives();
   }
 
   @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: SaveActividadHerramientaDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: SaveActividadHerramientaDto,
+  ) {
     const result = await this.saveUseCase.execute(id, dto);
     if (!result) {
-      throw new NotFoundException(`Herramienta de actividad con id ${id} no encontrada`);
+      throw new NotFoundException(
+        `Herramienta de actividad con id ${id} no encontrada`,
+      );
     }
     return result.toPrimitives();
   }
@@ -49,7 +66,9 @@ export class ActividadesHerramientasController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     const deleted = await this.deleteUseCase.execute(id);
     if (!deleted) {
-      throw new NotFoundException(`Herramienta de actividad con id ${id} no encontrada`);
+      throw new NotFoundException(
+        `Herramienta de actividad con id ${id} no encontrada`,
+      );
     }
     return { deleted };
   }

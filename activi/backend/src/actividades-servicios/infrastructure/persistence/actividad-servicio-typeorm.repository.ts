@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ActividadServicioDomain, ActividadServicioProps } from '../../domain/entities/actividad-servicio.entity';
+import {
+  ActividadServicioDomain,
+  ActividadServicioProps,
+} from '../../domain/entities/actividad-servicio.entity';
 import type {
   ActividadServicioRepositoryPort,
   ActividadServicioUpdate,
@@ -15,14 +18,20 @@ export class TypeOrmActividadServicioRepository implements ActividadServicioRepo
     private readonly repository: Repository<ActividadServicioOrmEntity>,
   ) {}
 
-  async create(servicio: ActividadServicioDomain): Promise<ActividadServicioDomain> {
-    const entity = this.repository.create(this.toPersistence(servicio.toPrimitives()));
+  async create(
+    servicio: ActividadServicioDomain,
+  ): Promise<ActividadServicioDomain> {
+    const entity = this.repository.create(
+      this.toPersistence(servicio.toPrimitives()),
+    );
     const saved = await this.repository.save(entity);
     return this.toDomain(saved);
   }
 
   async findAll(): Promise<ActividadServicioDomain[]> {
-    const entities = await this.repository.find({ relations: { actividad: true } });
+    const entities = await this.repository.find({
+      relations: { actividad: true },
+    });
     return entities.map((e) => this.toDomain(e));
   }
 
@@ -34,8 +43,13 @@ export class TypeOrmActividadServicioRepository implements ActividadServicioRepo
     return entity ? this.toDomain(entity) : null;
   }
 
-  async update(id: number, data: ActividadServicioUpdate): Promise<ActividadServicioDomain | null> {
-    const existing = await this.repository.findOneBy({ id_actividad_servicio: id });
+  async update(
+    id: number,
+    data: ActividadServicioUpdate,
+  ): Promise<ActividadServicioDomain | null> {
+    const existing = await this.repository.findOneBy({
+      id_actividad_servicio: id,
+    });
     if (!existing) return null;
     await this.repository.update({ id_actividad_servicio: id }, data);
     return this.findById(id);
@@ -46,7 +60,9 @@ export class TypeOrmActividadServicioRepository implements ActividadServicioRepo
     return Boolean(result.affected);
   }
 
-  private toPersistence(props: ActividadServicioProps): Partial<ActividadServicioOrmEntity> {
+  private toPersistence(
+    props: ActividadServicioProps,
+  ): Partial<ActividadServicioOrmEntity> {
     return {
       id_actividad: props.id_actividad,
       nombre_servicio: props.nombre_servicio,
@@ -56,7 +72,9 @@ export class TypeOrmActividadServicioRepository implements ActividadServicioRepo
     };
   }
 
-  private toDomain(entity: ActividadServicioOrmEntity): ActividadServicioDomain {
+  private toDomain(
+    entity: ActividadServicioOrmEntity,
+  ): ActividadServicioDomain {
     return ActividadServicioDomain.fromPersistence({
       id_actividad_servicio: entity.id_actividad_servicio,
       id_actividad: entity.id_actividad,

@@ -18,7 +18,9 @@ export class ActividadHerramientaDomain {
     });
   }
 
-  static fromPersistence(props: ActividadHerramientaProps): ActividadHerramientaDomain {
+  static fromPersistence(
+    props: ActividadHerramientaProps,
+  ): ActividadHerramientaDomain {
     return new ActividadHerramientaDomain(props);
   }
 

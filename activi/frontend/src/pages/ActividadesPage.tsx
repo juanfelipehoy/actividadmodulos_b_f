@@ -169,7 +169,7 @@ const ActividadesPage = () => {
       {/* Form Modal */}
       {showForm && (
         <ActividadForm
-          initialData={editingActividad}
+          initialData={editingActividad ?? undefined}
           onSubmit={editingActividad ? handleUpdate : handleCreate}
           onCancel={handleCancel}
         />
@@ -185,9 +185,6 @@ const ActividadesPage = () => {
           </div>
           <h3 className="text-lg font-semibold text-gray-700 mb-1">No hay actividades</h3>
           <p className="text-sm text-gray-400 mb-5">Comienza creando tu primera actividad agricola</p>
-          <button onClick={() => setShowForm(true)} className="btn-primary">
-            Crear Primera Actividad
-          </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

@@ -25,7 +25,9 @@ import { ActividadesServiciosModule } from './actividades-servicios/actividades-
         entities: [__dirname + '/**/*.orm-entity{.ts,.js}'],
         synchronize: false,
         migrations: [__dirname + '/**/migrations/*{.ts,.js}'],
-        migrationsRun: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV === 'development',
+        migrationsRun:
+          process.env.DB_SYNCHRONIZE === 'true' ||
+          process.env.NODE_ENV === 'development',
         logging: process.env.DB_LOGGING === 'true',
       }),
     }),

@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ActividadEvidenciaDomain, ActividadEvidenciaProps } from '../../domain/entities/actividad-evidencia.entity';
+import {
+  ActividadEvidenciaDomain,
+  ActividadEvidenciaProps,
+} from '../../domain/entities/actividad-evidencia.entity';
 import type {
   ActividadEvidenciaRepositoryPort,
   ActividadEvidenciaUpdate,
@@ -15,14 +18,20 @@ export class TypeOrmActividadEvidenciaRepository implements ActividadEvidenciaRe
     private readonly repository: Repository<ActividadEvidenciaOrmEntity>,
   ) {}
 
-  async create(evidencia: ActividadEvidenciaDomain): Promise<ActividadEvidenciaDomain> {
-    const entity = this.repository.create(this.toPersistence(evidencia.toPrimitives()));
+  async create(
+    evidencia: ActividadEvidenciaDomain,
+  ): Promise<ActividadEvidenciaDomain> {
+    const entity = this.repository.create(
+      this.toPersistence(evidencia.toPrimitives()),
+    );
     const saved = await this.repository.save(entity);
     return this.toDomain(saved);
   }
 
   async findAll(): Promise<ActividadEvidenciaDomain[]> {
-    const entities = await this.repository.find({ relations: { actividad: true } });
+    const entities = await this.repository.find({
+      relations: { actividad: true },
+    });
     return entities.map((e) => this.toDomain(e));
   }
 
@@ -34,8 +43,13 @@ export class TypeOrmActividadEvidenciaRepository implements ActividadEvidenciaRe
     return entity ? this.toDomain(entity) : null;
   }
 
-  async update(id: number, data: ActividadEvidenciaUpdate): Promise<ActividadEvidenciaDomain | null> {
-    const existing = await this.repository.findOneBy({ id_actividad_evidencia: id });
+  async update(
+    id: number,
+    data: ActividadEvidenciaUpdate,
+  ): Promise<ActividadEvidenciaDomain | null> {
+    const existing = await this.repository.findOneBy({
+      id_actividad_evidencia: id,
+    });
     if (!existing) return null;
     await this.repository.update({ id_actividad_evidencia: id }, data);
     return this.findById(id);
@@ -46,7 +60,9 @@ export class TypeOrmActividadEvidenciaRepository implements ActividadEvidenciaRe
     return Boolean(result.affected);
   }
 
-  private toPersistence(props: ActividadEvidenciaProps): Partial<ActividadEvidenciaOrmEntity> {
+  private toPersistence(
+    props: ActividadEvidenciaProps,
+  ): Partial<ActividadEvidenciaOrmEntity> {
     return {
       id_actividad: props.id_actividad,
       tipo_evidencia: props.tipo_evidencia,
@@ -56,7 +72,9 @@ export class TypeOrmActividadEvidenciaRepository implements ActividadEvidenciaRe
     };
   }
 
-  private toDomain(entity: ActividadEvidenciaOrmEntity): ActividadEvidenciaDomain {
+  private toDomain(
+    entity: ActividadEvidenciaOrmEntity,
+  ): ActividadEvidenciaDomain {
     return ActividadEvidenciaDomain.fromPersistence({
       id_actividad_evidencia: entity.id_actividad_evidencia,
       id_actividad: entity.id_actividad,

@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ActividadHerramientaDomain, ActividadHerramientaProps } from '../../domain/entities/actividad-herramienta.entity';
+import {
+  ActividadHerramientaDomain,
+  ActividadHerramientaProps,
+} from '../../domain/entities/actividad-herramienta.entity';
 import type {
   ActividadHerramientaRepositoryPort,
   ActividadHerramientaUpdate,
@@ -15,14 +18,20 @@ export class TypeOrmActividadHerramientaRepository implements ActividadHerramien
     private readonly repository: Repository<ActividadHerramientaOrmEntity>,
   ) {}
 
-  async create(herramienta: ActividadHerramientaDomain): Promise<ActividadHerramientaDomain> {
-    const entity = this.repository.create(this.toPersistence(herramienta.toPrimitives()));
+  async create(
+    herramienta: ActividadHerramientaDomain,
+  ): Promise<ActividadHerramientaDomain> {
+    const entity = this.repository.create(
+      this.toPersistence(herramienta.toPrimitives()),
+    );
     const saved = await this.repository.save(entity);
     return this.toDomain(saved);
   }
 
   async findAll(): Promise<ActividadHerramientaDomain[]> {
-    const entities = await this.repository.find({ relations: { actividad: true } });
+    const entities = await this.repository.find({
+      relations: { actividad: true },
+    });
     return entities.map((e) => this.toDomain(e));
   }
 
@@ -34,19 +43,28 @@ export class TypeOrmActividadHerramientaRepository implements ActividadHerramien
     return entity ? this.toDomain(entity) : null;
   }
 
-  async update(id: number, data: ActividadHerramientaUpdate): Promise<ActividadHerramientaDomain | null> {
-    const existing = await this.repository.findOneBy({ id_actividad_herramienta: id });
+  async update(
+    id: number,
+    data: ActividadHerramientaUpdate,
+  ): Promise<ActividadHerramientaDomain | null> {
+    const existing = await this.repository.findOneBy({
+      id_actividad_herramienta: id,
+    });
     if (!existing) return null;
     await this.repository.update({ id_actividad_herramienta: id }, data);
     return this.findById(id);
   }
 
   async delete(id: number): Promise<boolean> {
-    const result = await this.repository.delete({ id_actividad_herramienta: id });
+    const result = await this.repository.delete({
+      id_actividad_herramienta: id,
+    });
     return Boolean(result.affected);
   }
 
-  private toPersistence(props: ActividadHerramientaProps): Partial<ActividadHerramientaOrmEntity> {
+  private toPersistence(
+    props: ActividadHerramientaProps,
+  ): Partial<ActividadHerramientaOrmEntity> {
     return {
       id_actividad: props.id_actividad,
       nombre_herramienta: props.nombre_herramienta,
@@ -57,7 +75,9 @@ export class TypeOrmActividadHerramientaRepository implements ActividadHerramien
     };
   }
 
-  private toDomain(entity: ActividadHerramientaOrmEntity): ActividadHerramientaDomain {
+  private toDomain(
+    entity: ActividadHerramientaOrmEntity,
+  ): ActividadHerramientaDomain {
     return ActividadHerramientaDomain.fromPersistence({
       id_actividad_herramienta: entity.id_actividad_herramienta,
       id_actividad: entity.id_actividad,

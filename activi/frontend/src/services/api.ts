@@ -21,25 +21,29 @@ export interface Actividad {
   fecha_inicio?: string;
   fecha_fin?: string;
   id_cultivo_real?: number;
-  fecha_creacion?: Date;
-  fecha_actualizacion?: Date;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
 }
 
 export interface ActividadHistorial {
-  id_historial?: number;
+  id_actividad_historial?: number;
   id_actividad: number;
   accion: string;
-  descripcion?: string;
-  fecha_cambio?: Date;
-  usuario?: string;
+  estado_anterior?: string;
+  estado_nuevo?: string;
+  id_usuario: number;
+  observaciones?: string;
+  fecha_registro?: string;
 }
 
 export interface ActividadEvidencia {
-  id_evidencia?: number;
+  id_actividad_evidencia?: number;
   id_actividad: number;
+  tipo_evidencia: string;
+  archivo_url: string;
   descripcion?: string;
-  url_archivo?: string;
-  fecha_subida?: Date;
+  observaciones?: string;
+  fecha_registro?: string;
 }
 
 export interface ActividadHerramienta {

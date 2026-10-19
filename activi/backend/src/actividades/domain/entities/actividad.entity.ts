@@ -1,5 +1,5 @@
-export type ActividadEstado = 'pendiente' | 'en_proceso' | 'completada' | 'cancelada' | string;
-export type ActividadPrioridad = 'baja' | 'media' | 'alta' | string;
+export type ActividadEstado = string;
+export type ActividadPrioridad = string;
 
 export interface ActividadProps {
   id_actividad?: number;

@@ -16,7 +16,9 @@ export class ActividadHistorialDomain {
     return new ActividadHistorialDomain(props);
   }
 
-  static fromPersistence(props: ActividadHistorialProps): ActividadHistorialDomain {
+  static fromPersistence(
+    props: ActividadHistorialProps,
+  ): ActividadHistorialDomain {
     return new ActividadHistorialDomain(props);
   }
 
